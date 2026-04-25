@@ -49,7 +49,7 @@ always_comb begin : nextStateLogic
         {OUT, 1'b?, 1'b?, 1'b?, 1'b?, 1'b?, 1'b?, 1'b?, 1'b0, 1'b?, 1'b?, 1'b?, 1'b?, 1'b?, 1'b1, 1'b?}: begin nextstate = ERROR;packet_type_ffin = packet_type_ffout;end
         {IN, 1'b?, 1'b?, 1'b?, 1'b?, 1'b?, 1'b?, 1'b?, 1'b0, 1'b?, 1'b?, 1'b?, 1'b?, 1'b?, 1'b1, 1'b?}: begin nextstate = ERROR;packet_type_ffin = packet_type_ffout;end
         
-        //add their output downstairs
+
 
         default: begin nextstate = state; packet_type_ffin = packet_type_ffout; end
     endcase
