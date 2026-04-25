@@ -43,8 +43,6 @@ module ahb_subordinate_usb (
    localparam [2:0] SIZE_WORD     = 2'd2;
 
 
-   // Matches rx_packet coding from control_fsm/usb_rx:
-   // DATA0=1, DATA1=2, ACK=3, OUT=6, IN=7
    localparam [2:0] PID_DATA0 = 3'd1;
    localparam [2:0] PID_DATA1 = 3'd2;
    localparam [2:0] PID_ACK   = 3'd3;
