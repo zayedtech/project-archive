@@ -94,9 +94,7 @@ module tb_controller ();
         init_signals();
         reset_dut();
 
-        // ─────────────────────────────────────────
-        // TEST 1: send ACK packet
-        // ─────────────────────────────────────────
+        
         testname = "test_ack";
         @(negedge clk);
         tx_packet = 3'd3; // ACK
@@ -123,9 +121,8 @@ module tb_controller ();
         assert (tx_transfer_active == 1'b0)
             else $error("FAILED %s: expected tx_transfer_active=0 in IDLE", testname);
 
-        // ─────────────────────────────────────────
-        // TEST 2: send NAK packet
-        // ─────────────────────────────────────────
+        
+      
         testname = "test_nak";
         reset_dut();
         init_signals();
@@ -143,9 +140,7 @@ module tb_controller ();
         assert (tx_transfer_active == 1'b0)
             else $error("FAILED %s: expected tx_transfer_active=0 in IDLE", testname);
 
-        // ─────────────────────────────────────────
-        // TEST 3: send STALL packet
-        // ─────────────────────────────────────────
+
         testname = "test_stall";
         reset_dut();
         init_signals();
@@ -163,9 +158,7 @@ module tb_controller ();
         assert (tx_transfer_active == 1'b0)
             else $error("FAILED %s: expected tx_transfer_active=0 in IDLE", testname);
 
-        // ─────────────────────────────────────────
-        // TEST 4: send DATA0 packet
-        // ─────────────────────────────────────────
+   
         testname = "test_data0";
         reset_dut();
         init_signals();
@@ -202,9 +195,7 @@ module tb_controller ();
         assert (tx_transfer_active == 1'b0)
             else $error("FAILED %s: expected tx_transfer_active=0", testname);
 
-        // ─────────────────────────────────────────
-        // TEST 5: send DATA1 packet
-        // ─────────────────────────────────────────
+     
         testname = "test_data1";
         reset_dut();
         init_signals();
@@ -227,9 +218,7 @@ module tb_controller ();
         assert (tx_transfer_active == 1'b0)
             else $error("FAILED %s: expected tx_transfer_active=0", testname);
 
-        // ─────────────────────────────────────────
-        // TEST 6: verify bit_tick gating
-        // ─────────────────────────────────────────
+       
         testname = "test_bit_tick_gate";
         reset_dut();
         init_signals();
@@ -244,9 +233,8 @@ module tb_controller ();
         assert (tx_transfer_active == 1'b1)
             else $error("FAILED %s: FSM did not advance on bit_tick", testname);
 
-        // ─────────────────────────────────────────
-        // TEST 7: n_rst from mid transmission
-        // ─────────────────────────────────────────
+ 
+
         testname = "test_mid_reset";
         reset_dut();
         init_signals();
@@ -255,8 +243,8 @@ module tb_controller ();
         buffer_occupancy = 7'd4;
         send_bit_tick();
         send_byte(); // SYNC
-        send_byte(); // PID — now in DATA
-        // reset mid transmission
+        send_byte(); // PID 
+       
         reset_dut();
         assert (tx_transfer_active == 1'b0)
             else $error("FAILED %s: expected tx_transfer_active=0 after reset", testname);
