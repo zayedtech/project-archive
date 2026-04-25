@@ -84,17 +84,13 @@ module tb_transmitter ();
         init_signals();
         reset_dut();
 
-        // ─────────────────────────────────────────
-        // TEST 1: idle state
-        // ─────────────────────────────────────────
+        
         testname = "test_idle";
         @(negedge clk);
         tx_packet = 3'd0;
         repeat(50) @(posedge clk);
 
-        // ─────────────────────────────────────────
-        // TEST 2: send ACK packet
-        // ─────────────────────────────────────────
+    
         testname = "test_ack";
         reset_dut();
         init_signals();
@@ -104,9 +100,8 @@ module tb_transmitter ();
         wait_handshake_packet();
         repeat(20) @(posedge clk);
 
-        // ─────────────────────────────────────────
-        // TEST 3: send NAK packet
-        // ─────────────────────────────────────────
+        
+    
         testname = "test_nak";
         reset_dut();
         init_signals();
@@ -116,9 +111,7 @@ module tb_transmitter ();
         wait_handshake_packet();
         repeat(20) @(posedge clk);
 
-        // ─────────────────────────────────────────
-        // TEST 4: send STALL packet
-        // ─────────────────────────────────────────
+   
         testname = "test_stall";
         reset_dut();
         init_signals();
@@ -128,9 +121,7 @@ module tb_transmitter ();
         wait_handshake_packet();
         repeat(20) @(posedge clk);
 
-        // ─────────────────────────────────────────
-        // TEST 5: send DATA0 with 1 byte
-        // ─────────────────────────────────────────
+      
         testname = "test_data0_1byte";
         reset_dut();
         init_signals();
@@ -147,9 +138,7 @@ module tb_transmitter ();
         wait_n_bits(35);
         repeat(20) @(posedge clk);
 
-        // ─────────────────────────────────────────
-        // TEST 6: send DATA1 with 3 bytes
-        // ─────────────────────────────────────────
+        
         testname = "test_data1_3bytes";
         reset_dut();
         init_signals();
@@ -158,7 +147,6 @@ module tb_transmitter ();
         buffer_occupancy = 7'd3;
         TX_Packet_Data   = 8'hAA;
         repeat(20) @(posedge clk);
-        // wait through SYNC + PID
         wait_n_bits(18);
         // byte 1
         buffer_occupancy = 7'd2;
@@ -175,9 +163,7 @@ module tb_transmitter ();
         wait_n_bits(30);
         repeat(20) @(posedge clk);
 
-        // ─────────────────────────────────────────
-        // TEST 7: EOP drives both lines low
-        // ─────────────────────────────────────────
+        
         testname = "test_eop";
         reset_dut();
         init_signals();
@@ -185,12 +171,10 @@ module tb_transmitter ();
         tx_packet = 3'd3;
         // wait through SYNC + PID
         wait_n_bits(18);
-        // now in EOP — observe dp_out and dm_out in waveform
+
         repeat(20) @(posedge clk);
 
-        // ─────────────────────────────────────────
-        // TEST 8: get_tx_packet_data in DATA
-        // ─────────────────────────────────────────
+       
         testname = "test_get_tx_packet_data";
         reset_dut();
         init_signals();
@@ -203,9 +187,7 @@ module tb_transmitter ();
         // observe get_tx_packet_data pulsing in waveform
         wait_n_bits(10);
 
-        // ─────────────────────────────────────────
-        // TEST 9: n_rst mid transmission
-        // ─────────────────────────────────────────
+   
         testname = "test_mid_reset";
         reset_dut();
         init_signals();
@@ -219,9 +201,7 @@ module tb_transmitter ();
         reset_dut();
         repeat(20) @(posedge clk);
 
-        // ─────────────────────────────────────────
-        // TEST 10: line returns to idle after packet
-        // ─────────────────────────────────────────
+    
         testname = "test_idle_after_packet";
         reset_dut();
         init_signals();
