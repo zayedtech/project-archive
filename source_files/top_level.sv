@@ -4,7 +4,7 @@ module top_level (
     input  logic        clk,
     input  logic        n_rst,
 
-    // AHB bus signals
+    
     input  logic        hsel,
     input  logic [3:0]  haddr,
     input  logic [2:0]  hsize,
@@ -16,7 +16,7 @@ module top_level (
     output logic        hresp,
     output logic        hready,
 
-    // USB physical layer
+    
     input  logic        dp_in,
     input  logic        dm_in,
     output logic        dp_out,
@@ -24,47 +24,43 @@ module top_level (
     output logic        d_mode
 );
 
-    // ── internal signals ──
-
-    // AHB sub → data buffer (write)
+   
     logic        store_tx_data;
     logic [7:0]  tx_data;
 
-    // AHB sub → data buffer (read)
     logic        get_rx_data;
 
-    // AHB sub → data buffer (flush)
+ 
     logic        clear;
 
-    // AHB sub → transmitter
+   
     logic [2:0]  tx_packet;
 
-    // transmitter → data buffer
     logic        get_tx_packet_data;
 
-    // data buffer → transmitter + AHB sub
+    
     logic [7:0]  TX_Packet_Data;
     logic [6:0]  buffer_occupancy;
 
-    // data buffer → AHB sub
+   
     logic [7:0]  rx_data;
 
-    // RX → data buffer
+ 
     logic        store_rx_packet_data;
     logic [7:0]  rx_packet_data;
     logic        flush;
 
-    // RX → AHB sub
+  
     logic [2:0]  rx_packet;
     logic        rx_data_ready;
     logic        rx_transfer_active;
     logic        rx_error;
 
-    // transmitter → AHB sub
+    
     logic        tx_transfer_active;
     logic        tx_error;
 
-    // ── AHB subordinate ──
+  
     ahb_subordinate_usb ahb_sub (
         .clk                (clk),
         .n_rst              (n_rst),
@@ -94,7 +90,7 @@ module top_level (
         .d_mode             (d_mode)
     );
 
-    // ── data buffer ──
+
     data_buffer data_buf (
         .clk                  (clk),
         .n_rst                (n_rst),
@@ -111,7 +107,7 @@ module top_level (
         .buffer_occupancy     (buffer_occupancy)
     );
 
-    // ── transmitter ──
+
     transmitter tx_inst (
         .clk                (clk),
         .n_rst              (n_rst),
@@ -125,7 +121,7 @@ module top_level (
         .dm_out             (dm_out)
     );
 
-    // ── USB RX ──
+    
     usb_rx rx_inst (
         .clk                  (clk),
         .n_rst                (n_rst),
