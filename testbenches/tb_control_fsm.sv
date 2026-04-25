@@ -12,7 +12,7 @@ module tb_control_fsm ();
 
     logic clk, n_rst;
 
-    // clockgen
+
     always begin
         clk = 0;
         #(CLK_PERIOD / 2.0);
