@@ -68,9 +68,6 @@ module tb_data_buffer ();
         init_signals();
         reset_dut();
 
-        // ─────────────────────────────────────────
-        // TEST 1
-        // ─────────────────────────────────────────
         testname = "test_ahb_push";
         @(negedge clk);
         store_tx_data = 1;
@@ -81,9 +78,7 @@ module tb_data_buffer ();
         assert (buffer_occupancy == 7'd1)
             else $error("FAILED %s: expected occupancy=1, got %0d", testname, buffer_occupancy);
 
-        // ─────────────────────────────────────────
-        // TEST 2
-        // ─────────────────────────────────────────
+       
         testname = "test_tx_pop";
         @(negedge clk);
         get_tx_packet_data = 1;
@@ -95,9 +90,7 @@ module tb_data_buffer ();
         assert (buffer_occupancy == 7'd0)
             else $error("FAILED %s: expected occupancy=0, got %0d", testname, buffer_occupancy);
 
-        // ─────────────────────────────────────────
-        // TEST 3
-        // ─────────────────────────────────────────
+      
         testname = "test_rx_push";
         reset_dut();
         @(negedge clk);
@@ -109,9 +102,7 @@ module tb_data_buffer ();
         assert (buffer_occupancy == 7'd1)
             else $error("FAILED %s: expected occupancy=1, got %0d", testname, buffer_occupancy);
 
-        // ─────────────────────────────────────────
-        // TEST 4
-        // ─────────────────────────────────────────
+      
         testname = "test_ahb_pop";
         @(negedge clk);
         get_rx_data = 1;
@@ -123,9 +114,7 @@ module tb_data_buffer ();
         assert (buffer_occupancy == 7'd0)
             else $error("FAILED %s: expected occupancy=0, got %0d", testname, buffer_occupancy);
 
-        // ─────────────────────────────────────────
-        // TEST 5
-        // ─────────────────────────────────────────
+   
         testname = "test_push_full";
         reset_dut();
         @(negedge clk);
@@ -146,9 +135,6 @@ module tb_data_buffer ();
         assert (buffer_occupancy == 7'd64)
             else $error("FAILED %s: push when full not blocked, occupancy=%0d", testname, buffer_occupancy);
 
-        // ─────────────────────────────────────────
-        // TEST 6
-        // ─────────────────────────────────────────
         testname = "test_pop_empty";
         reset_dut();
         @(negedge clk);
@@ -159,9 +145,7 @@ module tb_data_buffer ();
         assert (buffer_occupancy == 7'd0)
             else $error("FAILED %s: pop when empty not blocked, occupancy=%0d", testname, buffer_occupancy);
 
-        // ─────────────────────────────────────────
-        // TEST 7
-        // ─────────────────────────────────────────
+
         testname = "test_clear";
         reset_dut();
         @(negedge clk);
@@ -177,9 +161,6 @@ module tb_data_buffer ();
         assert (buffer_occupancy == 7'd0)
             else $error("FAILED %s: clear did not flush, occupancy=%0d", testname, buffer_occupancy);
 
-        // ─────────────────────────────────────────
-        // TEST 8
-        // ─────────────────────────────────────────
         testname = "test_flush";
         reset_dut();
         @(negedge clk);
@@ -195,9 +176,6 @@ module tb_data_buffer ();
         assert (buffer_occupancy == 7'd0)
             else $error("FAILED %s: flush did not clear, occupancy=%0d", testname, buffer_occupancy);
 
-        // ─────────────────────────────────────────
-        // TEST 9
-        // ─────────────────────────────────────────
         testname = "test_simultaneous";
         reset_dut();
         @(negedge clk);
@@ -215,9 +193,7 @@ module tb_data_buffer ();
         assert (buffer_occupancy == 7'd1)
             else $error("FAILED %s: expected occupancy=1, got %0d", testname, buffer_occupancy);
 
-        // ─────────────────────────────────────────
-        // TEST 10
-        // ─────────────────────────────────────────
+        
         testname = "test_occupancy";
         reset_dut();
         @(negedge clk);
@@ -239,9 +215,7 @@ module tb_data_buffer ();
         assert (buffer_occupancy == 7'd2)
             else $error("FAILED %s: expected occupancy=2, got %0d", testname, buffer_occupancy);
 
-        // ─────────────────────────────────────────
-        // TEST 11
-        // ─────────────────────────────────────────
+    
         testname = "test_wraparound";
         reset_dut();
         @(negedge clk);
@@ -273,9 +247,7 @@ module tb_data_buffer ();
         assert (buffer_occupancy == 7'd2)
             else $error("FAILED %s: expected occupancy=2 after wraparound, got %0d", testname, buffer_occupancy);
 
-        // ─────────────────────────────────────────
-        // TEST 12
-        // ─────────────────────────────────────────
+        
         testname = "test_reset";
         @(negedge clk);
         store_tx_data = 1;
