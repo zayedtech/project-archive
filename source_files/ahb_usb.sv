@@ -1,7 +1,6 @@
 `timescale 1ns / 10ps
 
-// Course manual recommended name/file for the USB peripheral top (USB.pdf A.1).
-// Same hierarchy as `top_level` so TB hierarchical references (e.g. u_top.data_buf) resolve.
+
 module ahb_usb (
     input  logic        clk,
     input  logic        n_rst,
