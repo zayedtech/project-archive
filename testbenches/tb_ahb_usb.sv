@@ -486,9 +486,7 @@ module tb_ahb_usb ();
         reset_model();
         reset_dut();
 
-        // ─────────────────────────────────────────
-        // TEST 1: write one byte — check occupancy
-        // ─────────────────────────────────────────
+
         testname = "test_write_one_byte_occupancy";
         do_reset();
         enqueue_write(4'h0, 2'd0, 32'h000000AB);
@@ -499,9 +497,7 @@ module tb_ahb_usb ();
         finish_transactions();
         // observe hrdata=1 in waveform
 
-        // ─────────────────────────────────────────
-        // TEST 2: write 4 bytes — check occupancy
-        // ─────────────────────────────────────────
+       
         testname = "test_write_multiple_bytes_occupancy";
         do_reset();
         enqueue_write(4'h0, 2'd0, 32'h000000AA);
@@ -515,9 +511,7 @@ module tb_ahb_usb ();
         finish_transactions();
         // observe hrdata=4 in waveform
 
-        // ─────────────────────────────────────────
-        // TEST 3: write then read back — FIFO order
-        // ─────────────────────────────────────────
+    
         testname = "test_write_read_fifo_order";
         do_reset();
         enqueue_write(4'h0, 2'd0, 32'h000000AA);
@@ -538,9 +532,7 @@ module tb_ahb_usb ();
         finish_transactions();
         // observe hrdata=0xCC
 
-        // ─────────────────────────────────────────
-        // TEST 4: occupancy decrements after reads
-        // ─────────────────────────────────────────
+        
         testname = "test_occupancy_after_reads";
         do_reset();
         enqueue_write(4'h0, 2'd0, 32'h000000AA);
@@ -563,9 +555,7 @@ module tb_ahb_usb ();
         finish_transactions();
         // observe hrdata=3
 
-        // ─────────────────────────────────────────
-        // TEST 5: flush buffer via 0xD
-        // ─────────────────────────────────────────
+      
         testname = "test_flush_buffer";
         do_reset();
         enqueue_write(4'h0, 2'd0, 32'h000000AA);
@@ -586,9 +576,7 @@ module tb_ahb_usb ();
         finish_transactions();
         // observe hrdata=0
 
-        // ─────────────────────────────────────────
-        // TEST 6: hsize byte write — occupancy +1
-        // ─────────────────────────────────────────
+        
         testname = "test_hsize_byte_write";
         do_reset();
         enqueue_write(4'h0, 2'd0, 32'h000000AB);
@@ -599,9 +587,7 @@ module tb_ahb_usb ();
         finish_transactions();
         // observe hrdata=1
 
-        // ─────────────────────────────────────────
-        // TEST 7: hsize halfword write — occupancy +2
-        // ─────────────────────────────────────────
+        
         testname = "test_hsize_halfword_write";
         do_reset();
         enqueue_write(4'h0, 2'd1, 32'h0000AABB);
@@ -612,9 +598,7 @@ module tb_ahb_usb ();
         finish_transactions();
         // observe hrdata=2
 
-        // ─────────────────────────────────────────
-        // TEST 8: hsize word write — occupancy +4
-        // ─────────────────────────────────────────
+    
         testname = "test_hsize_word_write";
         do_reset();
         enqueue_write(4'h0, 2'd2, 32'hAABBCCDD);
@@ -625,9 +609,7 @@ module tb_ahb_usb ();
         finish_transactions();
         // observe hrdata=4
 
-        // ─────────────────────────────────────────
-        // TEST 9: send ACK
-        // ─────────────────────────────────────────
+        
         testname = "test_send_ack";
         do_reset();
         enqueue_write(4'hC, 2'd0, 32'h00000003);
@@ -642,9 +624,7 @@ module tb_ahb_usb ();
         finish_transactions();
         // observe hrdata=0 — control register cleared
 
-        // ─────────────────────────────────────────
-        // TEST 10: send NAK
-        // ─────────────────────────────────────────
+        
         testname = "test_send_nak";
         do_reset();
         enqueue_write(4'hC, 2'd0, 32'h00000004);
@@ -656,9 +636,7 @@ module tb_ahb_usb ();
         execute_transactions(1);
         finish_transactions();
 
-        // ─────────────────────────────────────────
-        // TEST 11: send STALL
-        // ─────────────────────────────────────────
+        
         testname = "test_send_stall";
         do_reset();
         enqueue_write(4'hC, 2'd0, 32'h00000005);
@@ -670,9 +648,7 @@ module tb_ahb_usb ();
         execute_transactions(1);
         finish_transactions();
 
-        // ─────────────────────────────────────────
-        // TEST 12: send DATA0 with 3 bytes
-        // ─────────────────────────────────────────
+    
         testname = "test_send_data0";
         do_reset();
         enqueue_write(4'h0, 2'd0, 32'h000000AA);
@@ -694,9 +670,7 @@ module tb_ahb_usb ();
         finish_transactions();
         // observe hrdata=0
 
-        // ─────────────────────────────────────────
-        // TEST 13: send DATA1 with 2 bytes
-        // ─────────────────────────────────────────
+
         testname = "test_send_data1";
         do_reset();
         enqueue_write(4'h0, 2'd0, 32'h000000DD);
@@ -715,19 +689,14 @@ module tb_ahb_usb ();
         execute_transactions(1);
         finish_transactions();
 
-        // ─────────────────────────────────────────
-        // TEST 14: status register in idle
-        // ─────────────────────────────────────────
+   
         testname = "test_status_register_idle";
         do_reset();
         enqueue_poll(4'h4, 2'd1);
         execute_transactions(1);
         finish_transactions();
-        // observe hrdata bits — all should be 0 in idle
 
-        // ─────────────────────────────────────────
-        // TEST 15: status register tx_transfer_active bit
-        // ─────────────────────────────────────────
+        
         testname = "test_status_tx_transfer_active";
         do_reset();
         enqueue_write(4'hC, 2'd0, 32'h00000003);
@@ -737,16 +706,13 @@ module tb_ahb_usb ();
         enqueue_poll(4'h4, 2'd1);
         execute_transactions(1);
         finish_transactions();
-        // observe bit 9 high in hrdata
         wait_handshake_packet();
         enqueue_poll(4'h4, 2'd1);
         execute_transactions(1);
         finish_transactions();
         // observe bit 9 low in hrdata
 
-        // ─────────────────────────────────────────
-        // TEST 16: error register in idle
-        // ─────────────────────────────────────────
+        
         testname = "test_error_register_idle";
         do_reset();
         enqueue_poll(4'h6, 2'd1);
@@ -754,20 +720,15 @@ module tb_ahb_usb ();
         finish_transactions();
         // observe hrdata=0
 
-        // ─────────────────────────────────────────
-        // TEST 17: TX packet invalid value — no transmission
-        // ─────────────────────────────────────────
+        
         testname = "test_tx_packet_invalid";
         do_reset();
         enqueue_write(4'hC, 2'd0, 32'h00000006);
         execute_transactions(1);
         finish_transactions();
         repeat(50) @(posedge clk);
-        // observe tx_transfer_active stays 0 in waveform
 
-        // ─────────────────────────────────────────
-        // TEST 18: buffer full protection
-        // ─────────────────────────────────────────
+   
         testname = "test_buffer_full_protection";
         do_reset();
         begin
@@ -781,32 +742,24 @@ module tb_ahb_usb ();
         enqueue_poll(4'h8, 2'd0);
         execute_transactions(1);
         finish_transactions();
-        // observe hrdata=64
         enqueue_write(4'h0, 2'd0, 32'h000000FF);
         execute_transactions(1);
         finish_transactions();
         enqueue_poll(4'h8, 2'd0);
         execute_transactions(1);
         finish_transactions();
-        // observe hrdata still 64
 
-        // ─────────────────────────────────────────
-        // TEST 19: d_mode follows tx_transfer_active
-        // ─────────────────────────────────────────
         testname = "test_d_mode_follows_tx_transfer_active";
         do_reset();
         enqueue_write(4'hC, 2'd0, 32'h00000003);
         execute_transactions(1);
         finish_transactions();
         repeat(20) @(posedge clk);
-        // observe d_mode=1 in waveform
         wait_handshake_packet();
         repeat(20) @(posedge clk);
-        // observe d_mode=0 in waveform
+        
 
-        // ─────────────────────────────────────────
-        // TEST 20: TX control register clears after send
-        // ─────────────────────────────────────────
+      
         testname = "test_tx_control_clears_after_send";
         do_reset();
         enqueue_write(4'hC, 2'd0, 32'h00000003);
