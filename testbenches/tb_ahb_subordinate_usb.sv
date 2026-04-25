@@ -22,7 +22,7 @@ module tb_ahb_subordinate_usb ();
 
    logic clk, n_rst;
 
-   //clockgen
+   
    always begin
        clk = 0;
        #(CLK_PERIOD / 2.0);
@@ -56,7 +56,7 @@ module tb_ahb_subordinate_usb ();
    string test_name;
 
 
-   //bus model connections
+   
    ahb_model_updated #(
        .ADDR_WIDTH(4),
        .DATA_WIDTH(4)
@@ -75,25 +75,24 @@ module tb_ahb_subordinate_usb ();
    );
 
 
-   // Supporting Tasks
+ 
    task reset_model;
        BFM.reset_model();
    endtask
 
 
-   // Read from a register without checking the value
    task enqueue_poll ( input logic [3:0] addr, input logic [1:0] size );
        logic [31:0] data [];
    begin
        data = new [1];
        data[0] = {32'hXXXX};
-       //              Fields: hsel,  R/W, addr, data, exp err,         size, burst, chk prdata or not
+
        BFM.enqueue_transaction(1'b1, 1'b0, addr, data,    1'b0, {1'b0, size},  3'b0,            1'b0);
    end
    endtask
 
 
-   // Read from a register until a requested value is observed
+   
    task poll_until ( input logic [3:0] addr, input logic [1:0] size, input logic [31:0] data);
        int iters;
    begin
@@ -109,7 +108,7 @@ module tb_ahb_subordinate_usb ();
    endtask
 
 
-   // Read Transaction, verifying a specific value is read
+  
    task enqueue_read(input logic [3:0] addr, input logic [1:0] size, input logic [31:0] exp_read);
        logic [31:0] data [];
    begin
@@ -130,7 +129,7 @@ module tb_ahb_subordinate_usb ();
    endtask
 
 
-   // Write Transaction Intended for a different subordinate from yours
+   
    task enqueue_fakewrite(input logic [3:0] addr, input logic [1:0] size, input logic [31:0] wdata);
        logic [31:0] data [];
    begin
@@ -141,14 +140,12 @@ module tb_ahb_subordinate_usb ();
    endtask
 
 
-   // Create a burst read of size based on the burst type.
-   // If INCR, burst size dependent on dynamic array size
+   
    task enqueue_burst_read ( input logic [3:0] base_addr, input logic [1:0] size, input logic [2:0] burst, input logic [31:0] data [] );
        BFM.enqueue_transaction(1'b1, 1'b0, base_addr, data, 1'b0, {1'b0, size}, burst, 1'b1);
    endtask
 
 
-   // Create a burst write of size based on the burst type.
    task enqueue_burst_write ( input logic [3:0] base_addr, input logic [1:0] size, input logic [2:0] burst, input logic [31:0] data [] );
        BFM.enqueue_transaction(1'b1, 1'b1, base_addr, data, 1'b0, {1'b0, size}, burst, 1'b1);
    endtask
@@ -234,7 +231,6 @@ module tb_ahb_subordinate_usb ();
                   for (i = 0; i < 63; i = i + 1)
                       fifo_mem[i] <= fifo_mem[i+1];
                   buffer_occupancy <= buffer_occupancy - 7'd1;
-                  //after pop
                   if (buffer_occupancy > 7'd1)
                       rx_data <= fifo_mem[1];
                   else
@@ -261,17 +257,16 @@ module tb_ahb_subordinate_usb ();
 
        reset_model();
 
-       // 1) Reset / default state
+       
        test_name = "Reset / Default State";
        reset_dut();
-       enqueue_read(4'h4, 2'd1, 32'h0000_0000); // status
-       enqueue_read(4'h6, 2'd1, 32'h0000_0000); // error
-       enqueue_read(4'h8, 2'd0, 32'h0000_0000); // occupancy
+       enqueue_read(4'h4, 2'd1, 32'h0000_0000); 
+       enqueue_read(4'h6, 2'd1, 32'h0000_0000); 
+       enqueue_read(4'h8, 2'd0, 32'h0000_0000); 
        execute_transactions(3);
        finish_transactions();
 
 
-       // 2) Status register mapping
        test_name = "Status Register Read";
        reset_dut();
        rx_packet = 3'd7; @(posedge clk); // IN
